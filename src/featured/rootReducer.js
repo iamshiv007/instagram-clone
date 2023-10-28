@@ -19,14 +19,14 @@ import allMessagesReducer from "./reducers/message/allMessagesReducer";
 import newMessagereducer from "./reducers/message/newMessagereducer";
 
 const rootReducer = combineReducers({
-    auth: authReducer,
+    user: authReducer,
     password: passwordReducer,
-    follow: followUserReducer,
+    followUser: followUserReducer,
     profile: profileReducer,
     userDetails: userDetailsReducer,
-    users: allUsersReducer,
+    allUsers: allUsersReducer,
     newPost: postCreationReducer,
-    posts: followingPostsReducer,
+    postOfFollowing: followingPostsReducer,
     likePost: likePostReducer,
     newComment: newCommentReducer,
     savePost: savePostReducer,

@@ -1,3 +1,4 @@
+import axios from "axios"
 import { deletePostFailure, deletePostRequest, deletePostSuccess } from "../reducers/posts/deletePostReducer";
 import { postFollowingFailure, postFollowingRequest, postFollowingSuccess } from "../reducers/posts/followingPostsReducer";
 import { likeUnlikePostRequest, likeUnlikePostSuccess } from "../reducers/posts/likePostReducer";
@@ -24,7 +25,7 @@ export const addNewPost = (postData) => async (dispatch) => {
     dispatch(postFollowingRequest());
   
     try {
-      const { data } = await axios.get(`/api/post/suggested?page=${page}`);
+      const { data } = await axios.get(`/api/post/following?page=${page}`);
       dispatch(postFollowingSuccess(data));
     } catch (error) {
       dispatch(postFollowingFailure(error?.response?.data.message ||
@@ -98,5 +99,3 @@ export const addNewPost = (postData) => async (dispatch) => {
             "Something went wrong !"));
     }
   };
-  
-  export default postSlice.reducer;

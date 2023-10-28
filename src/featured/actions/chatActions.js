@@ -14,7 +14,7 @@ const fetchAllChats = () => async (dispatch) => {
     }
 };
 
-const createNewChat = (chatData) => async (dispatch) => {
+const addNewChat = (chatData) => async (dispatch) => {
     dispatch(newChatRequest());
 
     try {
@@ -24,4 +24,4 @@ const createNewChat = (chatData) => async (dispatch) => {
         dispatch(newChatFailure(error?.response?.data.message || error.message || "Something went wrong!"));
     }
 };
-export { fetchAllChats, createNewChat }
+export { fetchAllChats, addNewChat }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { authFailure, authRequest, authSuccess, logoutFailure, logoutRequest, logoutSuccess } from '../reducers/user/authReducer';
-import { userDetailsFailure, userDetailsRequest, userDetailsSuccess } from '../reducers/user/userDetails';
-import { allUsersFailure, allUsersRequest, allUsersSuccess } from '../reducers/user/usersReducer';
-import { followUserFailure, followUserRequest, followUserSuccess } from '../reducers/user/followUser';
+import { userDetailsFailure, userDetailsRequest, userDetailsSuccess } from '../reducers/user/userDetailsReducer';
+import { allUsersFailure, allUsersRequest, allUsersSuccess } from '../reducers/user/allUsersReducer';
+import { followUserFailure, followUserRequest, followUserSuccess } from '../reducers/user/followUserReducer';
 import { passwordFailure, passwordRequest, passwordSuccess } from '../reducers/user/passwordReducer';
-import { updateProfileFailure, updateProfileRequest, updateProfileSuccess } from '../reducers/user/updateProfile';
+import { updateProfileFailure, updateProfileRequest, updateProfileSuccess } from '../reducers/user/profileReducer';
 
 // Login User
 export const loginUser = (userId, password) => async (dispatch) => {

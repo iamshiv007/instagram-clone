@@ -5,7 +5,7 @@ const newChatSlice = createSlice({
   initialState: {
     loading: false,
     success: false,
-    chat: {},
+    chat: null,
     error: null,
   },
   reducers: {

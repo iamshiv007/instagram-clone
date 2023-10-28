@@ -13,7 +13,7 @@ const allUsersSlice = createSlice({
     },
     allUsersSuccess: (state, action) => {
       state.loading = false;
-      state.users = action.payload;
+      state.users = action.payload.users;
     },
     allUsersFailure: (state, action) => {
       state.loading = false;
