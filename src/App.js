@@ -12,6 +12,7 @@ import Profile from "./components/User/Profile"
 import UpdateProfile from "./components/User/Update/UpdateProfile"
 import Update from "./components/User/Update/Update"
 import Header from "./components/Navbar/Header"
+import NotFound from "./components/Errors/NotFound"
 
 function App() {
 
@@ -67,6 +68,8 @@ function App() {
         <Route exact path="/register" element={<SignUp />} />
         <Route exact path="/password/forgot" element={<ForgotPassword />} />
         <Route exact path="/password/reset/:token" element={<ResetPassword />} />
+        {/* When no route is matched */}
+        <Route path="*" element={<NotFound />} />
       </ Routes>
     </>
   )

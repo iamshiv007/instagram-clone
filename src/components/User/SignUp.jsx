@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import imageCompression from 'browser-image-compression';
 import BackdropLoader from '../Layouts/BackdropLoader';
 import { registerUser } from '../../featured/actions/userActions';
 import { clearErrors } from '../../featured/reducers/user/authReducer';
@@ -56,19 +57,28 @@ const SignUp = () => {
         dispatch(registerUser(formData));
     }
 
-    const handleDataChange = (e) => {
+    const handleDataChange = async(e) => {
         if (e.target.name === 'avatar') {
             const reader = new FileReader();
 
+            const file = e.target.files[0]
+
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 150,
+                useWebWorker: true,
+              };
+              const compressedFile = await imageCompression(file, options);
+
             reader.onload = () => {
                 if (reader.readyState === 2) {
-                    setAvatarPreview(reader.result);
+                    const result = reader.result
+                    setAvatarPreview(result);
+                    setAvatar(result)
                 }
             };
 
-            reader.readAsDataURL(e.target.files[0]);
-            // console.log(e.target.files[0])
-            setAvatar(e.target.files[0])
+            reader.readAsDataURL(compressedFile);
 
         } else {
             setUser({ ...user, [e.target.name]: e.target.value });

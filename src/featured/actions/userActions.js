@@ -47,7 +47,7 @@ export const registerUser = (userData) => async (dispatch) => {
 
 // Load User
 export const loadUser = () => async (dispatch) => {
-    dispatch(authRequest);
+    dispatch(authRequest());
 
     try {
 
@@ -170,7 +170,7 @@ export const resetPassword = (token, password) => async (dispatch) => {
     try {
 
         const { data } = await axios.put(
-            `/api/v1/password/reset/${token}`,
+            `/api/user/password/reset/${token}`,
             { password }
         );
 
@@ -190,7 +190,7 @@ export const updateProfile = (userData) => async (dispatch) => {
     try {
 
         const { data } = await axios.put(
-            '/api/v1/update/profile',
+            '/api/user/update/profile',
             userData
         );
 
@@ -211,7 +211,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
 
 
         const { data } = await axios.put(
-            '/api/v1/update/password',
+            '/api/user/update/password',
             passwords
         );
 

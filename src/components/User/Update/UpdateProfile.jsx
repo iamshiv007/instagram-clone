@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import MetaData from '../../Layouts/MetaData';
 import { clearErrors, updateProfileReset } from '../../../featured/reducers/user/profileReducer';
 import { loadUser, updateProfile } from '../../../featured/actions/userActions';
+import imageCompression from 'browser-image-compression';
+import BackdropLoader from '../../Layouts/BackdropLoader';
 
 const UpdateProfile = () => {
 
@@ -37,7 +39,7 @@ const UpdateProfile = () => {
         const formData = new FormData();
         formData.set("name", name);
         formData.set("username", username);
-        formData.set("website", website);
+        formData.set("website", website || "");
         formData.set("bio", bio);
         formData.set("email", email);
         formData.set("avatar", avatar);
@@ -45,16 +47,30 @@ const UpdateProfile = () => {
         dispatch(updateProfile(formData));
     }
 
-    const handleAvatarChange = (e) => {
+    const handleAvatarChange = async (e) => {
         const reader = new FileReader();
+
         setAvatar("");
+
+        const file = e.target.files[0]
+
+        const options = {
+            maxSizeMB: "1",
+            maxWidthOrHeight: 150,
+            useWebWorker: true
+        }
+
+        const compressedFile = await imageCompression(file, options)
+
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setAvatarPreview(reader.result);
+                const result = reader.result
+                setAvatarPreview(result);
+                setAvatar(result);
             }
         };
-        reader.readAsDataURL(e.target.files[0]);
-        setAvatar(e.target.files[0]);
+
+        reader.readAsDataURL(compressedFile);
     }
 
     useEffect(() => {
@@ -64,7 +80,7 @@ const UpdateProfile = () => {
             setWebsite(user.website);
             setBio(user.bio);
             setEmail(user.email);
-            setOldAvatar(user.avatar);
+            setOldAvatar(user.avatar.url);
         }
         if (error) {
             toast.error(error);
@@ -81,6 +97,7 @@ const UpdateProfile = () => {
     return (
         <>
             <MetaData title="Edit Profile • Instagram" />
+            {loading && <BackdropLoader />}
 
             <form
                 onSubmit={handleUpdate}
@@ -133,7 +150,7 @@ const UpdateProfile = () => {
                         placeholder="Website"
                         value={website || ""}
                         onChange={(e) => setWebsite(e.target.value)}
-                        required
+
                     />
                 </div>
                 <div className="flex w-full gap-8 text-right items-start">

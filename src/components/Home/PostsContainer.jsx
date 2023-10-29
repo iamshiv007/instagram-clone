@@ -38,7 +38,6 @@ const PostsContainer = () => {
             dispatch(clearErrors());
         }
         dispatch(getPostsOfFollowing());
-        // dispatch(postFollowingReset());
     }, [dispatch, error]);
 
     useEffect(() => {

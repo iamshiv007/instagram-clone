@@ -10,7 +10,7 @@ import MetaData from '../Layouts/MetaData';
 import NotFound from '../Errors/NotFound';
 import { newChatReset } from '../../featured/reducers/chat/newChatReducer';
 import { clearErrors as followClearErrors, followUserReset } from '../../featured/reducers/user/followUserReducer';
-import { clearErrors as chatClearErrors  } from '../../featured/reducers/chat/newChatReducer';
+import { clearErrors as chatClearErrors } from '../../featured/reducers/chat/newChatReducer';
 import { followUser, getUserDetails } from '../../featured/actions/userActions';
 import { addNewChat } from '../../featured/actions/chatActions';
 import { clearErrors } from '../../featured/reducers/user/userDetailsReducer';
@@ -108,7 +108,7 @@ const Profile = () => {
 
                         {/* profile picture */}
                         <div className="sm:w-1/3 flex justify-center mx-auto sm:mx-0">
-                            <img draggable="false" className="w-40 h-40 rounded-full object-cover" src={user.avatar} alt="" />
+                            <img draggable="false" className="w-40 h-40 rounded-full object-cover" src={user.avatar?.url} alt="" />
                         </div>
 
                         {/* profile details */}

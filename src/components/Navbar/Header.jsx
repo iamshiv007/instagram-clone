@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import SearchBox from './SearchBar/SearchBox';
 
 const Header = () => {
-
     const { user } = useSelector((state) => state.user);
 
     const [profileToggle, setProfileToggle] = useState(false)
@@ -43,7 +42,7 @@ const Header = () => {
                     <span className="hidden sm:block">{exploreOutline}</span>
                     <span className="hidden sm:block">{likeOutline}</span>
 
-                    <div onClick={() => setProfileToggle(!profileToggle)} className={`${(profileToggle && 'border-black border') || ((!onHome && !onChat) && 'border-black border')} rounded-full cursor-pointer h-7 w-7 p-[0.5px]`}><img draggable="false" loading="lazy" className="w-full h-full rounded-full object-cover" src={user.avatar} alt="" /></div>
+                    <div onClick={() => setProfileToggle(!profileToggle)} className={`${(profileToggle && 'border-black border') || ((!onHome && !onChat) && 'border-black border')} rounded-full cursor-pointer h-7 w-7 p-[0.5px]`}><img draggable="false" loading="lazy" className="w-full h-full rounded-full object-cover" src={user.avatar.url} alt="" /></div>
                 </div>
 
                 {profileToggle &&
