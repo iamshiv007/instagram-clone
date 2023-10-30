@@ -14,7 +14,7 @@ const followingPostsSlice = createSlice({
         },
         postFollowingSuccess: (state, action) => {
             state.loading = false;
-            state.posts = action.payload.posts;
+            state.posts = [...state.posts, ...action.payload.posts];
             state.totalPosts = action.payload.totalPosts;
         },
         postFollowingReset: (state) => {

@@ -1,5 +1,6 @@
 import { Dialog, LinearProgress } from '@mui/material'
-import { Picker } from 'emoji-mart';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { toast } from 'react-toastify';
 import { emojiIcon } from '../Home/SvgIcons';
 import { addNewPost } from '../../featured/actions/postActions';
 import { clearErrors, newPostReset } from '../../featured/reducers/posts/postCreationReducer';
+import imageCompression from 'browser-image-compression';
 
 const NewPost = ({ newPost, setNewPost }) => {
 
@@ -26,18 +28,34 @@ const NewPost = ({ newPost, setNewPost }) => {
         setDragged(!dragged);
     }
 
-    const handleFileChange = (e) => {
+    const getFileSizeInKB = (file) => {
+        return file.size / 1024; // 1 KB = 1024 bytes
+    }
+
+
+    const handleFileChange = async (e) => {
         const reader = new FileReader();
         setPostImage("");
         setPostPreview("")
+        const file = e.target.files[0]
+
+        const options = {
+            maxSizeMB: 0.7,
+            useWebWorker: true,
+        };
+
+        const compressedFile = await imageCompression(file, options);
+
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setPostPreview(reader.result);
+                const result = reader.result
+                setPostImage(result);
+                setPostPreview(result);
             }
         };
 
-        reader.readAsDataURL(e.target.files[0]);
-        setPostImage(e.target.files[0]);
+
+        reader.readAsDataURL(getFileSizeInKB(file) > 700 ? compressedFile : file);
     }
 
     const newPostSubmitHandler = (e) => {
@@ -74,6 +92,7 @@ const NewPost = ({ newPost, setNewPost }) => {
             setPostPreview("");
             setCaption("");
         }
+        // eslint-disable-next-line
     }, [dispatch, error, success, navigate]);
 
     return (
@@ -144,9 +163,8 @@ const NewPost = ({ newPost, setNewPost }) => {
                                 {showEmojis && (
                                     <div className="absolute bottom-10 -left-20">
                                         <Picker
-                                            set="google"
-                                            onSelect={(e) => setCaption(caption + e.native)}
-                                            title="Emojis"
+                                            data={data}
+                                            onEmojiSelect={(e) => setCaption(caption + e.native)}
                                         />
                                     </div>
                                 )}

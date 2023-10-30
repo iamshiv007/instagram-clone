@@ -9,6 +9,19 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { Picker } from "emoji-mart"
+
+new Picker({
+  data: async () => {
+    const response = await fetch(
+      'https://cdn.jsdelivr.net/npm/@emoji-mart/data',
+    )
+
+    return response.json()
+  }
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

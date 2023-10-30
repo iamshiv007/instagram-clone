@@ -57,18 +57,22 @@ const SignUp = () => {
         dispatch(registerUser(formData));
     }
 
-    const handleDataChange = async(e) => {
+    const getFileSizeInKB = (file) => {
+        return file.size / 1024; // 1 KB = 1024 bytes
+    }
+
+    const handleDataChange = async (e) => {
         if (e.target.name === 'avatar') {
             const reader = new FileReader();
 
             const file = e.target.files[0]
 
             const options = {
-                maxSizeMB: 1,
-                maxWidthOrHeight: 150,
+                maxSizeMB: 0.7,
                 useWebWorker: true,
-              };
-              const compressedFile = await imageCompression(file, options);
+            };
+
+            const compressedFile = await imageCompression(file, options);
 
             reader.onload = () => {
                 if (reader.readyState === 2) {
@@ -78,7 +82,7 @@ const SignUp = () => {
                 }
             };
 
-            reader.readAsDataURL(compressedFile);
+            reader.readAsDataURL(getFileSizeInKB(file) > 700 ? compressedFile : file);
 
         } else {
             setUser({ ...user, [e.target.name]: e.target.value });

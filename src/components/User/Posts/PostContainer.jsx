@@ -53,7 +53,8 @@ const PostContainer = ({ posts, id }) => {
             toast.success("Post Deleted")
             dispatch(deletePostReset());
         }
-    }, [dispatch, success, likeError, message, commentError, commentSuccess, saveError, saveSuccess, saveMessage, deleteError, deleteSuccess]);
+         // eslint-disable-next-line
+    }, [dispatch, success, likeError, message, commentError, commentSuccess, saveError, saveSuccess, saveMessage, deleteError, deleteSuccess, params.userName]);
 
     return (
         <div className="grid grid-cols-3 gap-1 sm:gap-8 my-1 mb-8" id={id}>

@@ -24,7 +24,6 @@ const Profile = () => {
     const [follow, setFollow] = useState(false);
     const [viewModal, setViewModal] = useState(false);
     const [followersModal, setFollowersModal] = useState(false);
-    const [usersArr, setUsersArr] = useState([]);
     const [savedTab, setSavedTab] = useState(false);
 
     const { user, error, loading } = useSelector((state) => state.userDetails);
@@ -33,20 +32,17 @@ const Profile = () => {
     const { error: chatError, chat } = useSelector((state) => state.newChat);
 
     const handleFollow = () => {
-        // setFollow(!follow); 
         dispatch(followUser(user._id));
     }
 
     const handleFollowersModal = () => {
         setFollowersModal(true);
         setViewModal(true)
-        setUsersArr(user?.followers);
     }
 
     const handleFollowingModal = () => {
         setViewModal(true)
         setFollowersModal(false);
-        setUsersArr(user?.following);
     }
 
     const closeModal = () => {
@@ -69,16 +65,11 @@ const Profile = () => {
             dispatch(followUserReset());
         }
 
-        // return () => {
-        //     dispatch({ type: USER_DETAILS_RESET })
-        // }
-
     }, [dispatch, error, params.username, followError, success, message]);
 
     useEffect(() => {
-        // console.log(user?.followers?.some((id) => id === loggedInUser._id))
         setFollow(user?.followers?.some((u) => u._id === loggedInUser._id))
-    }, [user]);
+    }, [user, loggedInUser]);
 
     const addToChat = () => {
         dispatch(addNewChat(user._id));
@@ -94,7 +85,7 @@ const Profile = () => {
             navigate(`/direct/t/${chat._id}/${friendId}`);
             dispatch(newChatReset());
         }
-    }, [dispatch, chatError, chat, navigate]);
+    }, [dispatch, chatError, chat, navigate, loggedInUser]);
 
     return (
         <>
@@ -147,7 +138,7 @@ const Profile = () => {
                                 <p className="font-medium">{user.name}</p>
                                 <p className="whitespace-pre-line">{user.bio}</p>
                                 {user?.website &&
-                                    <a href={user.website} target="_blank" className="text-blue-900 font-medium">{new URL(user.website).hostname}</a>
+                                    <a href={user.website} target="_blank" rel="noreferrer" className="text-blue-900 font-medium">{new URL(user.website).hostname}</a>
                                 }
                             </div>
                         </div>

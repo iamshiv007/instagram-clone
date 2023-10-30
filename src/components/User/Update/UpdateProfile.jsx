@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -47,6 +47,10 @@ const UpdateProfile = () => {
         dispatch(updateProfile(formData));
     }
 
+    const getFileSizeInKB = (file) => {
+        return file.size / 1024; // 1 KB = 1024 bytes
+    }
+
     const handleAvatarChange = async (e) => {
         const reader = new FileReader();
 
@@ -55,8 +59,7 @@ const UpdateProfile = () => {
         const file = e.target.files[0]
 
         const options = {
-            maxSizeMB: "1",
-            maxWidthOrHeight: 150,
+            maxSizeMB: 0.7,
             useWebWorker: true
         }
 
@@ -70,7 +73,7 @@ const UpdateProfile = () => {
             }
         };
 
-        reader.readAsDataURL(compressedFile);
+        reader.readAsDataURL(getFileSizeInKB(file) > 700 ? compressedFile : file);
     }
 
     useEffect(() => {
@@ -92,7 +95,7 @@ const UpdateProfile = () => {
             navigate(`/${username}`);
             dispatch(updateProfileReset());
         }
-    }, [dispatch, user, error, isUpdated]);
+    }, [dispatch, user, error, isUpdated, navigate, username]);
 
     return (
         <>

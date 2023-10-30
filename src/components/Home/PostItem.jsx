@@ -89,7 +89,7 @@ const PostItem = ({ _id, caption, likes, comments, image, postedBy, savedBy, cre
 
             {/* post image container */}
             <div className="relative flex items-center justify-center" onDoubleClick={setLike}>
-                <img draggable="false" loading="lazy" className="w-full h-full object-cover object-center" src={image} alt="postIjmage" />
+                <img draggable="false" loading="lazy" className="w-full h-full object-cover object-center" src={image.url} alt="postIjmage" />
                 {likeEffect &&
                     <img draggable="false" height="80px" className="likeEffect" alt="heart" src="https://img.icons8.com/ios-filled/2x/ffffff/like.png" />
                 }

@@ -13,7 +13,7 @@ import UpdateProfile from "./components/User/Update/UpdateProfile"
 import Update from "./components/User/Update/Update"
 import Header from "./components/Navbar/Header"
 import NotFound from "./components/Errors/NotFound"
-
+ // eslint-disable-next-line
 function App() {
 
   const { isAuthenticated } = useSelector(state => state.user)

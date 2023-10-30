@@ -33,14 +33,14 @@ const PostsContainer = () => {
     const handleClose = () => setUsersDialog(false);
 
     useEffect(() => {
+        dispatch(getPostsOfFollowing());
+    }, [dispatch]);
+
+    useEffect(() => {
         if (error) {
             toast.error(error);
             dispatch(clearErrors());
         }
-        dispatch(getPostsOfFollowing());
-    }, [dispatch, error]);
-
-    useEffect(() => {
         if (likeError) {
             toast.error(likeError);
             dispatch(likeClearErrors());
@@ -65,7 +65,7 @@ const PostsContainer = () => {
             toast.success(saveMessage)
             dispatch(saveUnsavePostReset());
         }
-    }, [dispatch, success, likeError, message, commentError, commentSuccess, saveError, saveSuccess, saveMessage])
+    }, [dispatch, success, error, likeError, message, commentError, commentSuccess, saveError, saveSuccess, saveMessage])
 
     const fetchMorePosts = () => {
         setPage((prev) => prev + 1)
