@@ -38,7 +38,7 @@ export const likePost = (postId) => async (dispatch) => {
   dispatch(likeUnlikePostRequest());
 
   try {
-    const { data } = await axios.get(`/api/post/lke/${postId}`);
+    const { data } = await axios.get(`/api/post/like/${postId}`);
     dispatch(likeUnlikePostSuccess(data));
   } catch (error) {
     dispatch(likeUnlikePostSuccess(error?.response?.data.message ||
@@ -51,7 +51,7 @@ export const addComment = (postId, comment) => async (dispatch) => {
   dispatch(newCommentRequest());
 
   try {
-    const { data } = await axios.post(`/api/post/comment/new/${postId}`, { comment });
+    const { data } = await axios.post(`/api/post/comment/${postId}`, { comment });
 
     dispatch(newCommentSuccess(data));
   } catch (error) {
@@ -65,7 +65,7 @@ export const savePost = (postId) => async (dispatch) => {
   dispatch(saveUnsavePostRequest());
 
   try {
-    const { data } = await axios.post(`/api/post/save/${postId}`);
+    const { data } = await axios.get(`/api/post/save/${postId}`);
     dispatch(saveUnsavePostSuccess(data));
   } catch (error) {
     dispatch(saveUnsavePostFailure(error?.response?.data.message ||

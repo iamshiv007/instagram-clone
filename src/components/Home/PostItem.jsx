@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { likeFill } from '../Navbar/SvgIcons';
 import { commentIcon, emojiIcon, likeIconOutline, moreIcons, saveIconFill, saveIconOutline, shareIcon } from './SvgIcons'
-import { Picker } from 'emoji-mart'
 import ScrollToBottom from 'react-scroll-to-bottom';
 import axios from 'axios';
 import moment from 'moment';
 import { addComment, likePost, savePost } from '../../featured/actions/postActions';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 const PostItem = ({ _id, caption, likes, comments, image, postedBy, savedBy, createdAt, setUsersDialog, setUsersList }) => {
 
@@ -32,7 +33,7 @@ const PostItem = ({ _id, caption, likes, comments, image, postedBy, savedBy, cre
     const handleLike = async () => {
         setLiked(!liked);
         await dispatch(likePost(_id));
-        const { data } = await axios.get(`/api/post/detail/${_id}`)
+        const { data } = await axios.get(`/api/post/details/${_id}`)
         setAllLikes(data.post.likes)
     }
 
@@ -40,14 +41,14 @@ const PostItem = ({ _id, caption, likes, comments, image, postedBy, savedBy, cre
         e.preventDefault();
         await dispatch(addComment(_id, comment));
         setComment("");
-        const { data } = await axios.get(`/api/post/detail/${_id}`)
+        const { data } = await axios.get(`/api/post/details/${_id}`)
         setAllComments(data.post.comments)
     }
 
     const handleSave = async () => {
         setSaved(!saved);
         await dispatch(savePost(_id));
-        const { data } = await axios.get(`/api/post/detail/${_id}`)
+        const { data } = await axios.get(`/api/post/details/${_id}`)
         setAllSavedBy(data.post.savedBy)
     }
 
@@ -154,9 +155,8 @@ const PostItem = ({ _id, caption, likes, comments, image, postedBy, savedBy, cre
                 {showEmojis && (
                     <div className="absolute bottom-12 -left-2">
                         <Picker
-                            set="google"
-                            onSelect={(e) => setComment(comment + e.native)}
-                            title="Emojis"
+                            data={data}
+                            onEmojiSelect={(e) => setComment(comment + e.native)}
                         />
                     </div>
                 )}
