@@ -6,6 +6,7 @@ import { followUserFailure, followUserRequest, followUserSuccess } from '../redu
 import { passwordFailure, passwordRequest, passwordSuccess } from '../reducers/user/passwordReducer';
 import { updateProfileFailure, updateProfileRequest, updateProfileSuccess } from '../reducers/user/profileReducer';
 
+console.log(process.env.REACT_APP_BACKEND_URL)
 // Login User
 export const loginUser = (userId, password) => async (dispatch) => {
     dispatch(authRequest());
@@ -205,20 +206,19 @@ export const updateProfile = (userData) => async (dispatch) => {
 
 // Update User Password
 export const updatePassword = (passwords) => async (dispatch) => {
-    dispatch(updateProfileRequest())
+    dispatch(passwordRequest())
 
     try {
-
 
         const { data } = await axios.put(
             '/api/user/update/password',
             passwords
         );
 
-        dispatch(updateProfileSuccess(data));
+        dispatch(passwordSuccess(data));
 
     } catch (error) {
-        dispatch(updateProfileFailure(error?.response?.data.message ||
+        dispatch(passwordFailure(error?.response?.data.message ||
             error.message ||
             "Something went wrong !"));
     }
