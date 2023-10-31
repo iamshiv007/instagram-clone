@@ -1,8 +1,8 @@
 import { ClickAwayListener } from '@mui/material';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { searchIcon } from '../SvgIcons';
 import SearchUserItem from './SearchUserItem';
+import axios from 'axios';
 
 const SearchBox = () => {
 
@@ -12,9 +12,11 @@ const SearchBox = () => {
     const [searchResult, setSearchResult] = useState(false);
     const [searching, setSearching] = useState(false);
 
+    const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
     const fetchUsers = async (term) => {
         setLoading(true);
-        const { data } = await axios.get(`/api/user/search?keyword=${term}`);
+        const { data } = await axios.get(`${baseUrl}/api/user/search?keyword=${term}`);
         setUsers(data.users);
         setLoading(false);
     }
@@ -27,6 +29,7 @@ const SearchBox = () => {
         return () => {
             setUsers([])
         }
+        // eslint-disable-next-line
     }, [searchTerm]);
 
     const handleClickAway = () => {

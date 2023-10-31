@@ -6,220 +6,175 @@ import { followUserFailure, followUserRequest, followUserSuccess } from '../redu
 import { passwordFailure, passwordRequest, passwordSuccess } from '../reducers/user/passwordReducer';
 import { updateProfileFailure, updateProfileRequest, updateProfileSuccess } from '../reducers/user/profileReducer';
 
-console.log(process.env.REACT_APP_BACKEND_URL)
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
 // Login User
 export const loginUser = (userId, password) => async (dispatch) => {
-    dispatch(authRequest());
+  dispatch(authRequest());
 
-    try {
+  try {
+    const { data } = await axios.post(`${baseUrl}/api/user/login`, { userId, password, });
 
-        const { data } = await axios.post(
-            '/api/user/login',
-            { userId, password }
-        );
+    dispatch(authSuccess(data));
 
-        dispatch(authSuccess(data));
-    } catch (error) {
-        dispatch(authFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
-}
+  } catch (error) {
+    dispatch(authFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
+};
 
 // Register User
 export const registerUser = (userData) => async (dispatch) => {
-    dispatch(authRequest());
+  dispatch(authRequest());
 
-    try {
+  try {
+    const { data } = await axios.post(`${baseUrl}/api/user/signup`, userData);
 
-        const { data } = await axios.post(
-            '/api/user/signup',
-            userData
-        );
+    dispatch(authSuccess(data));
 
-        dispatch(authSuccess(data));
-
-    } catch (error) {
-        dispatch(authFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(
+      authFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Load User
 export const loadUser = () => async (dispatch) => {
-    dispatch(authRequest());
+  dispatch(authRequest());
 
-    try {
+  try {
+    const { data } = await axios.get(`${baseUrl}/api/user/me`);
 
-        const { data } = await axios.get('/api/user/me');
+    dispatch(authSuccess(data));
 
-        dispatch(authSuccess(data));
-
-    } catch (error) {
-        dispatch(authFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"))
-    }
-}
+  } catch (error) {
+    dispatch(
+      authFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
+};
 
 // Logout User
 export const logoutUser = () => async (dispatch) => {
-    dispatch(logoutRequest())
+  dispatch(logoutRequest());
 
-    try {
-        const { data } = await axios.get('/api/user/logout');
-        dispatch(logoutSuccess(data));
-    } catch (error) {
-        dispatch(logoutFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"))
-    }
-}
+  try {
+    const { data } = await axios.get(`${baseUrl}/api/user/logout`);
+
+    dispatch(logoutSuccess(data));
+
+  } catch (error) {
+    dispatch(
+      logoutFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
+};
 
 // Get User Details
 export const getUserDetails = (username) => async (dispatch) => {
-    dispatch(userDetailsRequest())
+  dispatch(userDetailsRequest());
 
-    try {
+  try {
+    const { data } = await axios.get(`${baseUrl}/api/user/details/userName/${username}`);
 
-        const { data } = await axios.get(`/api/user/details/userName/${username}`);
+    dispatch(userDetailsSuccess(data));
 
-        dispatch(userDetailsSuccess(data));
-
-    } catch (error) {
-        dispatch(userDetailsFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(
+      userDetailsFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Get User Details By ID
 export const getUserDetailsById = (userId) => async (dispatch) => {
-    dispatch(userDetailsRequest())
+  dispatch(userDetailsRequest());
 
-    try {
+  try {
+    const { data } = await axios.get(`${baseUrl}/api/user/details/id/${userId}`);
 
-        const { data } = await axios.get(`/api/user/details/id/${userId}`);
+    dispatch(userDetailsSuccess(data));
 
-        dispatch(userDetailsSuccess(data));
-
-    } catch (error) {
-        dispatch(userDetailsFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(userDetailsFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Get Suggested Users
 export const getSuggestedUsers = () => async (dispatch) => {
-    dispatch(allUsersRequest())
+  dispatch(allUsersRequest());
 
-    try {
+  try {
+    const { data } = await axios.get(`${baseUrl}/api/user/suggested`);
 
-        const { data } = await axios.get('/api/user/suggested');
+    dispatch(allUsersSuccess(data));
 
-        dispatch(allUsersSuccess(data));
-
-    } catch (error) {
-        dispatch(allUsersFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(allUsersFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Follow | Unfollow User
 export const followUser = (userId) => async (dispatch) => {
-    dispatch(followUserRequest())
-    try {
+  dispatch(followUserRequest());
+  try {
+    const { data } = await axios.get(`${baseUrl}/api/user/follow/${userId}`);
 
-        const { data } = await axios.get(`/api/user/follow/${userId}`);
+    dispatch(followUserSuccess(data));
 
-        dispatch(followUserSuccess(data));
-
-    } catch (error) {
-        dispatch(followUserFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(
+      followUserFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Forgot Password
 export const forgotPassword = (email) => async (dispatch) => {
-    dispatch(passwordRequest())
+  dispatch(passwordRequest());
 
-    try {
+  try {
+    const { data } = await axios.post(`${baseUrl}/api/user/password/forgot`, { email });
 
-        const { data } = await axios.post(
-            '/api/user/password/forgot',
-            { email }
-        );
-
-        dispatch(passwordSuccess(data));
-
-    } catch (error) {
-        dispatch(passwordFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+    dispatch(passwordSuccess(data));
+  } catch (error) {
+    dispatch(passwordFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Reset Password
 export const resetPassword = (token, password) => async (dispatch) => {
-    dispatch(passwordRequest())
+  dispatch(passwordRequest());
 
-    try {
+  try {
+    const { data } = await axios.put(`${baseUrl}/api/user/password/reset/${token}`, { password });
 
-        const { data } = await axios.put(
-            `/api/user/password/reset/${token}`,
-            { password }
-        );
+    dispatch(passwordSuccess(data));
 
-        dispatch(passwordSuccess(data));
-
-    } catch (error) {
-        dispatch(passwordFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(passwordFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Update User Profile
 export const updateProfile = (userData) => async (dispatch) => {
-    dispatch(updateProfileRequest())
+  dispatch(updateProfileRequest());
 
-    try {
+  try {
+    const { data } = await axios.put(`${baseUrl}/api/user/update/profile`, userData);
 
-        const { data } = await axios.put(
-            '/api/user/update/profile',
-            userData
-        );
+    dispatch(updateProfileSuccess(data));
 
-        dispatch(updateProfileSuccess(data));
-
-    } catch (error) {
-        dispatch(updateProfileFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(updateProfileFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };
 
 // Update User Password
 export const updatePassword = (passwords) => async (dispatch) => {
-    dispatch(passwordRequest())
+  dispatch(passwordRequest());
 
-    try {
+  try {
+    const { data } = await axios.put(`${baseUrl}/api/user/update/password`, passwords);
 
-        const { data } = await axios.put(
-            '/api/user/update/password',
-            passwords
-        );
+    dispatch(passwordSuccess(data));
 
-        dispatch(passwordSuccess(data));
-
-    } catch (error) {
-        dispatch(passwordFailure(error?.response?.data.message ||
-            error.message ||
-            "Something went wrong !"));
-    }
+  } catch (error) {
+    dispatch(passwordFailure(error?.response?.data.message || error.message || 'Something went wrong !'));
+  }
 };

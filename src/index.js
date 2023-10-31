@@ -12,6 +12,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Picker } from "emoji-mart"
+import axios from "axios"
+
+axios.defaults.withCredentials = true;
 
 new Picker({
   data: async () => {

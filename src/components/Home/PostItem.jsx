@@ -30,10 +30,12 @@ const PostItem = ({ _id, caption, likes, comments, image, postedBy, savedBy, cre
 
     const [likeEffect, setLikeEffect] = useState(false);
 
+    const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
     const handleLike = async () => {
         setLiked(!liked);
         await dispatch(likePost(_id));
-        const { data } = await axios.get(`/api/post/details/${_id}`)
+        const { data } = await axios.get(`${baseUrl}/api/post/details/${_id}`)
         setAllLikes(data.post.likes)
     }
 
@@ -41,14 +43,14 @@ const PostItem = ({ _id, caption, likes, comments, image, postedBy, savedBy, cre
         e.preventDefault();
         await dispatch(addComment(_id, comment));
         setComment("");
-        const { data } = await axios.get(`/api/post/details/${_id}`)
+        const { data } = await axios.get(`${baseUrl}/api/post/details/${_id}`)
         setAllComments(data.post.comments)
     }
 
     const handleSave = async () => {
         setSaved(!saved);
         await dispatch(savePost(_id));
-        const { data } = await axios.get(`/api/post/details/${_id}`)
+        const { data } = await axios.get(`${baseUrl}/api/post/details/${_id}`)
         setAllSavedBy(data.post.savedBy)
     }
 

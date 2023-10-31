@@ -7,17 +7,18 @@ import { newPostFailure, newPostRequest, newPostSuccess } from "../reducers/post
 import { postDetailsFailure, postDetailsRequest, postDetailsSuccess } from "../reducers/posts/postDetailsReducer";
 import { saveUnsavePostFailure, saveUnsavePostRequest, saveUnsavePostSuccess } from "../reducers/posts/savePostReducer";
 
+const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
 export const addNewPost = (postData) => async (dispatch) => {
   dispatch(newPostRequest());
 
   try {
-    const { data } = await axios.post("/api/post/new", postData);
+    const { data } = await axios.post(`${baseUrl}/api/post/new`, postData);
 
     dispatch(newPostSuccess(data));
+
   } catch (error) {
-    dispatch(newPostFailure(error?.response?.data.message ||
-      error.message ||
-      "Something went wrong !"));
+    dispatch(newPostFailure(error?.response?.data.message || error.message || "Something went wrong !"));
   }
 };
 
@@ -25,12 +26,12 @@ export const getPostsOfFollowing = (page = 1) => async (dispatch) => {
   dispatch(postFollowingRequest());
 
   try {
-    const { data } = await axios.get(`/api/post/following?page=${page}`);
+    const { data } = await axios.get(`${baseUrl}/api/post/following?page=${page}`);
+
     dispatch(postFollowingSuccess(data));
+
   } catch (error) {
-    dispatch(postFollowingFailure(error?.response?.data.message ||
-      error.message ||
-      "Something went wrong !"));
+    dispatch(postFollowingFailure(error?.response?.data.message || error.message || "Something went wrong !"));
   }
 };
 
@@ -38,12 +39,12 @@ export const likePost = (postId) => async (dispatch) => {
   dispatch(likeUnlikePostRequest());
 
   try {
-    const { data } = await axios.get(`/api/post/like/${postId}`);
+    const { data } = await axios.get(`${baseUrl}/api/post/like/${postId}`);
+
     dispatch(likeUnlikePostSuccess(data));
+
   } catch (error) {
-    dispatch(likeUnlikePostSuccess(error?.response?.data.message ||
-      error.message ||
-      "Something went wrong !"));
+    dispatch(likeUnlikePostSuccess(error?.response?.data.message || error.message || "Something went wrong !"));
   }
 };
 
@@ -51,13 +52,12 @@ export const addComment = (postId, comment) => async (dispatch) => {
   dispatch(newCommentRequest());
 
   try {
-    const { data } = await axios.post(`/api/post/comment/${postId}`, { comment });
+    const { data } = await axios.post(`${baseUrl}/api/post/comment/${postId}`, { comment });
 
     dispatch(newCommentSuccess(data));
+
   } catch (error) {
-    dispatch(newCommentFailure(error?.response?.data.message ||
-      error.message ||
-      "Something went wrong !"));
+    dispatch(newCommentFailure(error?.response?.data.message || error.message || "Something went wrong !"));
   }
 };
 
@@ -65,12 +65,12 @@ export const savePost = (postId) => async (dispatch) => {
   dispatch(saveUnsavePostRequest());
 
   try {
-    const { data } = await axios.get(`/api/post/save/${postId}`);
+    const { data } = await axios.get(`${baseUrl}/api/post/save/${postId}`);
+
     dispatch(saveUnsavePostSuccess(data));
+
   } catch (error) {
-    dispatch(saveUnsavePostFailure(error?.response?.data.message ||
-      error.message ||
-      "Something went wrong !"));
+    dispatch(saveUnsavePostFailure(error?.response?.data.message || error.message || "Something went wrong !"));
   }
 };
 
@@ -78,12 +78,12 @@ export const deletePost = (postId) => async (dispatch) => {
   dispatch(deletePostRequest());
 
   try {
-    const { data } = await axios.delete(`/api/post/${postId}`);
+    const { data } = await axios.delete(`${baseUrl}/api/post/${postId}`);
+
     dispatch(deletePostSuccess(data));
+
   } catch (error) {
-    dispatch(deletePostFailure(error?.response?.data.message ||
-      error.message ||
-      "Something went wrong !"));
+    dispatch(deletePostFailure(error?.response?.data.message || error.message || "Something went wrong !"));
   }
 };
 
@@ -91,11 +91,11 @@ export const getPostDetails = (postId) => async (dispatch) => {
   dispatch(postDetailsRequest());
 
   try {
-    const { data } = await axios.get(`/api/post/detail/${postId}`);
+    const { data } = await axios.get(`${baseUrl}/api/post/detail/${postId}`);
+
     dispatch(postDetailsSuccess(data));
+
   } catch (error) {
-    dispatch(postDetailsFailure(error?.response?.data.message ||
-      error.message ||
-      "Something went wrong !"));
+    dispatch(postDetailsFailure(error?.response?.data.message || error.message || "Something went wrong !"));
   }
 };

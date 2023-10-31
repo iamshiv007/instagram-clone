@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const passwordSlice = createSlice({
     name: "password",
     initialState: {
-        message: null,
         loading: false,
         error: null,
+        isUpdate: false
     },
     reducers: {
         passwordRequest: (state) => {
@@ -13,11 +13,14 @@ const passwordSlice = createSlice({
         },
         passwordSuccess: (state, action) => {
             state.loading = false;
-            state.message = action.payload.message;
+            state.isUpdate = true;
         },
         passwordFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;
+        },
+        passwordReset: (state, action) => {
+            state.isUpdate = false
         },
         // Clear errors
         clearErrors: (state) => {
@@ -30,6 +33,7 @@ export const {
     passwordRequest,
     passwordSuccess,
     passwordFailure,
+    passwordReset,
     clearErrors,
 } = passwordSlice.actions;
 
