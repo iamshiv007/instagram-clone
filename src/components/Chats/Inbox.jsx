@@ -43,7 +43,7 @@ const Inbox = () => {
     const userId = params.userId;
 
     useEffect(() => {
-        socket.current = io(process.env.BACKEND_URL, {
+        socket.current = io(process.env.REACT_APP_BACKEND_URL, {
             reconnectionAttempts: 1, // Set your desired reconnection limit here
         });
         socket.current.on("getMessage", (data) => {
