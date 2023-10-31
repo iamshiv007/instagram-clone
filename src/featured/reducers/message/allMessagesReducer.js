@@ -13,7 +13,7 @@ const allMessagesSlice = createSlice({
     },
     allMessagesSuccess: (state, action) => {
       state.loading = false;
-      state.messages = action.payload;
+      state.messages = action.payload.messages;
     },
     allMessagesFailure: (state, action) => {
       state.loading = false;

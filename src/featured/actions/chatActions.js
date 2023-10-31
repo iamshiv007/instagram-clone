@@ -4,12 +4,12 @@ import { newChatFailure, newChatRequest, newChatSuccess } from "../reducers/chat
 
 const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
-const fetchAllChats = () => async (dispatch) => {
+const getAllChats = () => async (dispatch) => {
     dispatch(allChatsRequest());
 
     try {
         const { data } = await axios.get(`${baseUrl}/api/chat/my`);
-        
+
         dispatch(allChatsSuccess(data));
 
     } catch (error) {
@@ -17,16 +17,16 @@ const fetchAllChats = () => async (dispatch) => {
     }
 };
 
-const addNewChat = (chatData) => async (dispatch) => {
+const addNewChat = (userId) => async (dispatch) => {
     dispatch(newChatRequest());
 
     try {
-        const { data } = await axios.post(`${baseUrl}/api/chat/new`, chatData);
+        const { data } = await axios.post(`${baseUrl}/api/chat/new`, { receiverId: userId });
 
         dispatch(newChatSuccess(data));
-        
+
     } catch (error) {
         dispatch(newChatFailure(error?.response?.data.message || error.message || "Something went wrong!"));
     }
 };
-export { fetchAllChats, addNewChat }
+export { getAllChats, addNewChat }

@@ -13,7 +13,7 @@ const allChatsSlice = createSlice({
     },
     allChatsSuccess: (state, action) => {
       state.loading = false;
-      state.chats = action.payload;
+      state.chats = action.payload.chats;
     },
     allChatsFailure: (state, action) => {
       state.loading = false;

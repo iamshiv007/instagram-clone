@@ -8,7 +8,7 @@ export const getAllMessages = (chatId) => async (dispatch) => {
     dispatch(allMessagesRequest());
 
     try {
-        const { data } = await axios.get(`${baseUrl}/api/messages/${chatId}`);
+        const { data } = await axios.get(`${baseUrl}/api/message/${chatId}`);
 
         dispatch(allMessagesSuccess(data));
 
@@ -17,7 +17,7 @@ export const getAllMessages = (chatId) => async (dispatch) => {
     }
 };
 
-export const addNewMessage = (messageData) => async (dispatch) => {
+export const sendMessage = (messageData) => async (dispatch) => {
     dispatch(newMessageRequest());
 
     try {

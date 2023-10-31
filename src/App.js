@@ -1,19 +1,24 @@
-import React, { useEffect } from "react"
+import React, { Suspense, lazy, useEffect } from "react"
 import { Route, Routes, useLocation } from "react-router-dom"
-import SignUp from "./components/User/SignUp"
-import ForgotPassword from "./components/User/ForgotPassword"
-import ResetPassword from "./components/User/ResetPassword"
 import PrivateRoute from "./components/Routes/PrivateRoutes"
-import Home from "./components/Home/Home"
-import Login from "./components/User/Login"
 import { useDispatch, useSelector } from "react-redux"
 import { loadUser } from "./featured/actions/userActions"
-import Profile from "./components/User/Profile"
-import UpdateProfile from "./components/User/Update/UpdateProfile"
-import Update from "./components/User/Update/Update"
 import Header from "./components/Navbar/Header"
-import NotFound from "./components/Errors/NotFound"
- // eslint-disable-next-line
+import SpinLoader from "./components/Layouts/SpinLoader"
+
+const Home = lazy(() => import('./components/Home/Home'));
+const SignUp = lazy(() => import('./components/User/SignUp'));
+const Login = lazy(() => import('./components/User/Login'));
+const Profile = lazy(() => import('./components/User/Profile'));
+const ForgotPassword = lazy(() => import('./components/User/ForgotPassword'));
+const ResetPassword = lazy(() => import('./components/User/ResetPassword'));
+const Update = lazy(() => import('./components/User/Update/UpdateProfile'));
+const UpdateProfile = lazy(() => import('./components/User/Update/Update'));
+const UpdatePassword = lazy(() => import('./components/User/Update/UpdatePassword'));
+const Inbox = lazy(() => import('./components/Chats/Inbox'));
+const NotFound = lazy(() => import('./components/Errors/NotFound'));
+
+// eslint-disable-next-line
 function App() {
 
   const { isAuthenticated } = useSelector(state => state.user)
@@ -34,43 +39,55 @@ function App() {
     });
   }, [pathname])
 
-  // disable right click
-  // window.addEventListener("contextmenu", (e) => e.preventDefault());
-  // window.addEventListener("keydown", (e) => {
-  //   if (e.keyCode == 123) e.preventDefault();
-  //   if (e.ctrlKey && e.shiftKey && e.keyCode === 73) e.preventDefault();
-  //   if (e.ctrlKey && e.shiftKey && e.keyCode === 74) e.preventDefault();
-  // });
-
   return (
     <>
       {isAuthenticated && <Header />}
-      <Routes>
-        <Route exact path="/" element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        } />
-        <Route exact path="/:username" element={
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
-        } />
-        <Route path="/accounts/edit" element={
-          <PrivateRoute>
-            <Update activeTab={0}>
-              <UpdateProfile />
-            </Update>
-          </PrivateRoute>
-        }
-        />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<SignUp />} />
-        <Route exact path="/password/forgot" element={<ForgotPassword />} />
-        <Route exact path="/password/reset/:token" element={<ResetPassword />} />
-        {/* When no route is matched */}
-        <Route path="*" element={<NotFound />} />
-      </ Routes>
+      <Suspense fallback={<SpinLoader />} >
+        <Routes>
+          <Route exact path="/" element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          } />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<SignUp />} />
+          <Route exact path="/password/forgot" element={<ForgotPassword />} />
+          <Route exact path="/password/reset/:token" element={<ResetPassword />} />
+          <Route exact path="/:username" element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          } />
+          <Route path="/accounts/edit" element={
+            <PrivateRoute>
+              <Update activeTab={0}>
+                <UpdateProfile />
+              </Update>
+            </PrivateRoute>
+          }
+          />
+          <Route path="/accounts/password/change" element={
+            <PrivateRoute>
+              <Update activeTab={1}>
+                <UpdatePassword />
+              </Update>
+            </PrivateRoute>
+          }
+          />
+          <Route path="/direct/inbox" element={
+            <PrivateRoute>
+              <Inbox />
+            </PrivateRoute>
+          } />
+          <Route path="/direct/t/:chatId/:userId" element={
+            <PrivateRoute>
+              <Inbox />
+            </PrivateRoute>
+          } />
+          {/* When no route is matched */}
+          <Route path="*" element={<NotFound />} />
+        </ Routes>
+      </Suspense>
     </>
   )
 }

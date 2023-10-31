@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
     savePost: savePostReducer,
     deletePost: deletePostReducer,
     postDetails: postDetailsReducer,
-    chats: allChatsReducer,
+    allChats: allChatsReducer,
     newChat: newChatReducer,
     allMessages: allMessagesReducer,
     newMessage: newMessagereducer
